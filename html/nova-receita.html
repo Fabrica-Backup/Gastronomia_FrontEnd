@@ -14,7 +14,7 @@
     <!-- Theme style -->
     <link rel="stylesheet" href="../css/AdminLTE.min.css">
     <link rel="stylesheet" href="../css/_all-skins.min.css">
-    <link rel="stylesheet" href="../css/validacao.css">
+    <link rel="stylesheet" href="../css/util.css">
 </head>
 
 <body class="hold-transition skin-green sidebar-mini">
@@ -109,7 +109,7 @@
         <!-- sidebar FIM -->
     </aside>
     <!-- ======================================================================================================= -->
-    <div class="content-wrapper">
+    <div class="content-wrapper" style="min-height:auto;">
         <!-- Content Header (Page header) -->
         <section class="content-header">
             <h1>
@@ -122,32 +122,43 @@
 
                 <!-- NOVA RECEITA -->
                 <div class="col-md-6">
-                    <div class="box">
+                    <div class="box box-primary">
                         <div class="box-header with-border">
                             <h3 class="box-title">Nova Receita</h3>
                         </div>
                         <form class="form-horizontal">
                             <div class="box-body">
                                 <div class="form-group">
-                                    <label for="inputEmail3" class="col-sm-2 control-label">Receita</label>
+                                    <label class="col-sm-3 control-label">Receita</label>
 
-                                    <div class="col-sm-10">
-                                        <input type="email" class="form-control" id="inputReceita" placeholder="Nome da Receita">
+                                    <div class="col-sm-8 input-group">
+                                        <input type="text" class="form-control" id="inputReceita" placeholder="Nome da Receita">
                                     </div>
                                 </div>
                                 <div class="form-group">
-                                    <label for="inputPassword3" class="col-sm-2 control-label">Classificação</label>
+                                    <label for="inputPassword3" class="col-sm-3 control-label">Classificação</label>
 
-                                    <div class="col-sm-10">
-                                        <input type="text" class="form-control" id="inputClassificacao" placeholder="Classificação">
+                                    <div class="col-sm-8 input-group">
+                                        <select type="text" class="form-control" id="inputClassificacao">
+                                            <option>oi</option>
+                                        </select>
+                                        <div class="input-group-btn">
+                                            <button type="button" class="btn btn-success" data-toggle="modal" data-target="#formClassSetor">Criar classificação</button>
+                                        </div>
                                     </div>
+
                                 </div>
 
                                 <div class="form-group">
-                                    <label for="inputPassword3" class="col-sm-2 control-label">Setor</label>
+                                    <label for="inputPassword3" class="col-sm-3 control-label">Setor</label>
 
-                                    <div class="col-sm-10">
-                                        <input type="text" class="form-control" id="inputSetor" placeholder="Setor">
+                                    <div class="col-sm-8 input-group">
+                                        <select type="text" class="form-control" id="inputClassificacao">
+                                            <option>oi</option>
+                                        </select>
+                                        <div class="input-group-btn">
+                                            <button type="button" class="btn btn-success" data-toggle="modal" data-target="#formClassSetor">Criar setor</button>
+                                        </div>
                                     </div>
                                 </div>
 
@@ -165,7 +176,7 @@
                     <!-- LISTA INGREDIENTES -->
                     <div class="row">
                         <div class="col-xs-12">
-                            <div class="box">
+                            <div class="box box-primary">
                                 <div class="box-header">
                                     <h3 class="box-title ">Ingredientes</h3>
 
@@ -287,6 +298,71 @@
                         </div>
                     </div>
                     <!-- FIM MODAL ADICIONAR INGREDIENTE-->
+
+                    <!-- MODAL ADICIONAR INGREDIENTE MODAL -->
+                    <!-- esta modal utiliza estoque/validacao-ingrediente.js e estoque/add-editar-modal.js para funcionar -->
+                    <div id="formClassSetor" class="modal fade" role="dialog">
+                        <div class="modal-dialog">
+                            <div class="modal-content">
+                                <div class="modal-header classSetorHeader">
+                                    <button type="button" class="close" data-dismiss="modal">&times;</button>
+                                    <h4>header - me delete</h4>
+                                </div>
+                                <div class="modal-body">
+
+                                    <ul id="mensagens-erro"></ul>
+                                    <ul id="mensagens-sucesso"></ul>
+
+                                    <form id="form-addIngrediente" name="form-addIngrediente" method="POST" class="form-horizontal">
+                                        <div class="box-body">
+                                            <div class="form-group">
+                                                <label for="inputIngrediente" class="col-sm-3 control-label">Ingrediente*</label>
+                                                <div class="col-sm-6 idIngrediente"></div>
+                                                <div class="col-sm-6 NomeIngrediente"></div>
+                                            </div>
+
+                                            <div class="form-group">
+                                                <label for="inputCalorias" class="col-sm-3 control-label">Quantidade Calorica*</label>
+
+                                                <div class="col-sm-6 QuantidadeCalorica"></div>
+                                            </div>
+
+                                            <div class="form-group">
+                                                <label for="inputAproveitamento" class="col-sm-3 control-label">Aproveitamento*</label>
+                                                <div class="col-sm-6 Aproveitamento"></div>
+                                            </div>
+
+                                            <div class="form-group">
+                                                <label for="inputQtdMinimo" class="col-sm-3 control-label">Quantidade em Estoque</label>
+                                                <div class="col-sm-6 QuantidadeEstoque"></div>
+                                            </div>
+
+                                            <div class="form-group">
+                                                <label for="inputUnidade" class="col-sm-3 control-label">Unidade*</label>
+                                                <div class="col-sm-6">
+                                                    <select name="unidade" class="form-control select2 UnidadeMedida" style="width: 100%;">
+                                                            <option value="1">kg</option>
+                                                            <option value="2">g</option>
+                                                            <option value="3">l</option>
+                                                            <option value="4">ml</option>
+                                                            <option value="5">un</option>
+                                                    </select>
+                                                </div>
+                                            </div>
+                                        </div>
+
+                                        <div class="modal-footer">
+                                            <button type="button" class="btn btn-default" data-dismiss="modal">Cancelar</button>
+                                            <button id="adicionar-ingrediente" type="submit" class="btn btn-success pull-right">Salvar</button>
+                                        </div>
+                                    </form>
+
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                    <!-- FIM MODAL ADICIONAR INGREDIENTE-->
+
                 </div>
                 <!-- /left column -->
 
@@ -294,7 +370,7 @@
                 <div class="col-md-6">
 
                     <!-- MODO DE PREPARO -->
-                    <div class="box">
+                    <div class="box box-primary">
                         <div class="box-header">
                             <h3 class="box-title">Modo de Preparo</h3>
                         </div>
@@ -323,17 +399,17 @@
     <script src="../js/bootstrap.min.js"></script>
     <!-- AdminLTE App -->
     <script src="../js/app.min.js"></script>
-    <script src="../js/extra/nova-receita/adicionar-ingrediente.js"></script>
-    <script src="../js/extra/nova-receita/validacao-receita.js"></script>
-    <script src="../js/extra/estoque/validacao-ingrediente.js"></script>
-    <script src="../js/extra/estoque/add-editar-modal.js"></script>
-    <script src="../js/util.js "></script>
+    <script src="../js/extra/nova-receita/adicionar_ingrediente.js"></script>
 
-    <script type="text/javascript" src="../js/extra/nicEdit.js"></script>
+    <script src="../js/extra/estoque/validacao_ingrediente.js"></script>
+    <script src="../js/extra/estoque/add_editar_ingredientes.js"></script>
+    <script src="../js/extra/util.js "></script>
+
+    <script type="text/javascript" src="../js/extra/nova-receita/nicEdit.js"></script>
     <script type="text/javascript">
         bkLib.onDomLoaded(function () {
             new nicEditor({
-                iconsPath: '../js/extra/nicEditorIcons.gif'
+                iconsPath: '../js/extra/nova-receita/nicEditorIcons.gif'
             }).panelInstance('area1');
         });
     </script>
