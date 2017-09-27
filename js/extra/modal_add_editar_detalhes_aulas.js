@@ -203,7 +203,7 @@ $('#addIngrediente').on('click', function () {
     var htmlButtonArr = [];
     // joga os botoes na array
     htmlButtonArr.push('<button type="button" class="btn btn-default" data-dismiss="modal">Cancelar</button>');
-    htmlButtonArr.push('<button type="button" id="saveButton" class="btn btn-success pull-right">Criar Aula</button>');
+    htmlButtonArr.push('<button type="button" id="saveButton" class="btn btn-success pull-right">Planejar Aula</button>');
     // imprime a array no rodape (cancelar e agendar)
     $('.rodape').html(htmlButtonArr);
 });

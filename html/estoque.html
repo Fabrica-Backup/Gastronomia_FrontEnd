@@ -140,7 +140,10 @@
                             <div class="box-header search_header">
                             </div>
                             <div class="box-body">
-                                <table class="table table-bordered table-hover aulas">
+                                <table class="table table-bordered table-hover">
+
+                                    <thead class="htmlHead">
+                                    </thead>
                                     <!-- lista da busca sera gerada aqui -->
                                     <tbody class="htmlIngList">
                                     </tbody>
@@ -182,8 +185,10 @@
                                             <th>Ingrediente</th>
                                             <th>Calorias em 100g</th>
                                             <th>Aproveitamento</th>
+                                            <th>Valor Total do Ingrediente</th>
                                             <th>Qtd Atual</th>
                                             <th>Unidade</th>
+                                            <th></th>
                                             <th></th>
                                             <th></th>
                                             <th></th>
@@ -227,11 +232,6 @@
                                                     </div>
 
                                                     <div class="form-group">
-                                                        <label for="inputQtdMinimo" class="col-sm-3 control-label">Quantidade em Estoque</label>
-                                                        <div class="col-sm-6 QuantidadeEstoque"></div>
-                                                    </div>
-
-                                                    <div class="form-group">
                                                         <label for="inputUnidade" class="col-sm-3 control-label">Unidade*</label>
                                                         <div class="col-sm-6">
                                                             <select name="unidade_medida_id_unidade_medida" class="form-control UnidadeMedida" style="width: 100%;"></select>
@@ -268,18 +268,39 @@
                                                 <div class="idIngrediente"></div>
 
                                                 <div class="form-group">
-                                                    <label for="QtdAtual" class="col-sm-3 control-label">Quantidade Atual</label>
+                                                    <label class="col-sm-3 control-label">Quantidade Atual</label>
                                                     <div class="col-xs-3 col-sm-3 quantidadeAtual"></div>
-                                                    <div class="col-xs-3 col-sm-3 unidadeMedida"></div>
+                                                    <div class="col-xs-3 col-sm-3 unidadeTxt"></div>
                                                 </div>
 
                                                 <div class="form-group">
-                                                    <label for="QtdAtual" class="col-sm-3 control-label">Quantidade a Somar*</label>
+                                                    <label class="col-sm-3 control-label">Preço Unitario</label>
+                                                    <div class="col-xs-3 col-sm-3 preco_unitario_atual">
+                                                        <h5>R$ 10</h5>
+                                                    </div>
+                                                </div>
+
+                                                <hr>
+                                                <div class="form-group">
+                                                    <label class="col-sm-3 control-label">Quantidade a Somar*</label>
                                                     <div class="col-xs-3 col-sm-3 ">
-                                                        <input type="text" name="quantidade_estoque_ingrediente" class="form-control qtdSoma" placeholder="Quantidade">
+                                                        <input type="text" name="quantidade_estoque_ingrediente" onkeyup="calculaPreco()" class="form-control qtdSoma" placeholder="Quantidade">
                                                     </div>
                                                     <div class="col-sm-2 listaUnidade">
                                                         <select name="unidade_medida_id_unidade_medida" class="form-control UnidadeMedida" style="width: 100%;"></select>
+                                                    </div>
+                                                </div>
+
+                                                <div class="form-group">
+                                                    <label class="col-sm-3 control-label">Preço de Todo Ingrediente</label>
+                                                    <div class="col-xs-3 col-sm-3">
+                                                        <input type="text" name="valor_total_ingrediente" onkeyup="calculaPreco()" class="form-control valor_total_compra" placeholder="Preço total">
+                                                    </div>
+                                                </div>
+
+                                                <div class="form-group">
+                                                    <label class="col-sm-3 control-label">Preço Unitario Atualizado</label>
+                                                    <div class="col-xs-3 col-sm-3 preco_unitario_atualizado">
                                                     </div>
                                                 </div>
 
@@ -310,18 +331,18 @@
                                             <form class="form-horizontal" id="formSubtrair" name="subtrair " method="POST ">
                                                 <div class="idIngrediente"></div>
                                                 <div class="form-group">
-                                                    <label for="QtdAtual" class="col-sm-3 control-label">Quantidade Atual</label>
+                                                    <label class="col-sm-3 control-label">Quantidade Atual</label>
                                                     <div class="col-xs-3 col-sm-3 quantidadeAtual"></div>
-                                                    <div class="col-xs-3 col-sm-3 unidadeMedida"></div>
+                                                    <div class="col-xs-3 col-sm-3 unidadeTxt"></div>
                                                 </div>
 
                                                 <div class="form-group">
-                                                    <label for="QtdAtual" class="col-sm-3 control-label">Quantidade a Subtrair*</label>
+                                                    <label class="col-sm-3 control-label">Quantidade a Subtrair*</label>
                                                     <div class="col-xs-3 col-sm-3 ">
                                                         <input type="text" name="quantidade_estoque_ingrediente" class="form-control qtdSubtrai" placeholder="Quantidade ">
                                                     </div>
                                                     <div class="col-sm-2">
-                                                        <select name="unidade_medida_id_unidade_medida" class="form-control UnidadeMedida" style="width: 100%;"></select>
+                                                        <select name="unidade_medida_id_unidade_medida" class="form-control UnidadeMedidaSelect" style="width: 100%;"></select>
                                                     </div>
                                                 </div>
 
