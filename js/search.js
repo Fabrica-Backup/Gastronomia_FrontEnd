@@ -58,13 +58,15 @@ function search() {
 
         // ============ Busca Ingredientes ============
         if (document.getElementById('filterIng').checked) {
+            // limpa a thead da pesquisa passada
+            $('.thead_busca').remove();
+
             // Header da tabela
             var headerIng = '<h3 class="box-title ">Ingredientes</h3>';
             $('.search_header').html(headerIng);
 
-
             // Cria a thead da tabela
-            var htmlThead = $('<tr></tr>');
+            var htmlThead = $('<tr class="thead_busca"></tr>');
             $('<th>Ingrediente</th>').appendTo(htmlThead);
             $('<th>Calorias em 100g</th>').appendTo(htmlThead);
             $('<th>Aproveitamento</th>').appendTo(htmlThead);
@@ -119,6 +121,9 @@ function search() {
 
         // ============ Busca Receitas ============
         if (document.getElementById('filterRec').checked) {
+            // limpa a thead da pesquisa passada
+            $('.thead_busca').remove();
+
             // Header da tabela
             var headerRec = '<h3 class="box-title ">Receitas</h3>';
             $('.search_header').html(headerRec);

@@ -1,5 +1,8 @@
 // ==================== SOMAR ==================== //
 $('#lista-ingredientes').on('click', '.addButton', function () {
+    // limpa valor calculado
+    $('.preco_unitario_atualizado').empty();
+
     // abre a modal
     $('#somar').modal('show');
     limpaMensagens();
@@ -22,6 +25,10 @@ $('#lista-ingredientes').on('click', '.addButton', function () {
 
             // cria html para mostrar a quantidade atual do ingrediente em estoque
             var htmlQuantidadeAtual = '<h5>' + valIngrediente.quantidade_estoque_ingrediente + '</h5>';
+
+            // cria html dos inputs
+            var htmlQtdSoma = '<input type="text" name="quantidade_estoque_ingrediente" onkeyup="calculaPreco()" class="form-control qtdSoma" placeholder="Quantidade">';
+            var htmlValor = '<input type="text" name="valor_total_ingrediente" onkeyup="calculaPreco()" class="form-control valor_total_compra" placeholder="Preço total">'
 
             // calculo do preço unitario da quantidade atual de ingredientes e criaçao do html
             var precoUnitario = (valIngrediente.valor_total_ingrediente / valIngrediente.quantidade_estoque_ingrediente);
@@ -51,11 +58,15 @@ $('#lista-ingredientes').on('click', '.addButton', function () {
             $('#formSomar').find('.idIngrediente').html(htmlIdIngrediente);
             $('#formSomar').find('.quantidadeAtual').html(htmlQuantidadeAtual);
             $('#formSomar').find('.preco_unitario_atual').html(htmlPrecoUnitario);
+
+            $('.inputQtdSoma').html(htmlQtdSoma);
+            $('.inputPreco').html(htmlValor);
         }
     })
 });
 
 function calculaPreco() {
+
     // pega os valores inseridos na modal
     var qtdIngrediente = $('.qtdSoma').val();
     var precoTotal = $('.valor_total_compra').val();

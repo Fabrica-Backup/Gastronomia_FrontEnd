@@ -242,7 +242,7 @@
 
                                                 <div class="modal-footer">
                                                     <button type="button" class="btn btn-default" data-dismiss="modal">Cancelar</button>
-                                                    <button id="adicionar-ingrediente" type="submit" class="btn btn-success pull-right">Salvar</button>
+                                                    <button id="adicionar-ingrediente" type="button" class="btn btn-success pull-right">Salvar</button>
                                                 </div>
                                             </form>
 
@@ -283,8 +283,8 @@
                                                 <hr>
                                                 <div class="form-group">
                                                     <label class="col-sm-3 control-label">Quantidade a Somar*</label>
-                                                    <div class="col-xs-3 col-sm-3 ">
-                                                        <input type="text" name="quantidade_estoque_ingrediente" onkeyup="calculaPreco()" class="form-control qtdSoma" placeholder="Quantidade">
+                                                    <div class="col-xs-3 col-sm-3 inputQtdSoma">
+
                                                     </div>
                                                     <div class="col-sm-2 listaUnidade">
                                                         <select name="unidade_medida_id_unidade_medida" class="form-control UnidadeMedida" style="width: 100%;"></select>
@@ -293,8 +293,8 @@
 
                                                 <div class="form-group">
                                                     <label class="col-sm-3 control-label">Preço de Todo Ingrediente</label>
-                                                    <div class="col-xs-3 col-sm-3">
-                                                        <input type="text" name="valor_total_ingrediente" onkeyup="calculaPreco()" class="form-control valor_total_compra" placeholder="Preço total">
+                                                    <div class="col-xs-3 col-sm-3 inputPreco">
+
                                                     </div>
                                                 </div>
 
