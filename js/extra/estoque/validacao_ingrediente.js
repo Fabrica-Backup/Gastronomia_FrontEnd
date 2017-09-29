@@ -7,9 +7,9 @@ $('#adicionar-ingrediente').on('click', function () {
     var erros = validaIngrediente(ingrediente);
     if (erros.length > 0) {
         exibeMensagensDeErro(erros);
-        return;
+    } else {
+        postJson();
     }
-    postJson();
 });
 
 function obtemIngredienteDoFormulario() {

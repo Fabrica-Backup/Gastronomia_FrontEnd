@@ -1,5 +1,8 @@
 // ==================== SOMAR ==================== //
 $('#lista-ingredientes').on('click', '.addButton', function () {
+    // limpa valor calculado
+    $('.preco_unitario_atualizado').empty();
+
     // abre a modal
     $('#somar').modal('show');
     limpaMensagens();
@@ -23,6 +26,14 @@ $('#lista-ingredientes').on('click', '.addButton', function () {
             // cria html para mostrar a quantidade atual do ingrediente em estoque
             var htmlQuantidadeAtual = '<h5>' + valIngrediente.quantidade_estoque_ingrediente + '</h5>';
 
+            // cria html dos inputs
+            var htmlQtdSoma = '<input type="text" name="quantidade_estoque_ingrediente" onkeyup="calculaPreco()" class="form-control qtdSoma" placeholder="Quantidade">';
+            var htmlValor = '<input type="text" name="valor_total_ingrediente" onkeyup="calculaPreco()" class="form-control valor_total_compra" placeholder="Preço total">'
+
+            // calculo do preço unitario da quantidade atual de ingredientes e criaçao do html
+            var precoUnitario = (valIngrediente.valor_total_ingrediente / valIngrediente.quantidade_estoque_ingrediente);
+            var htmlPrecoUnitario = '<h5>R$ ' + precoUnitario + '</h5>';
+
             // aparecera na header da modal, "Acrescentar + <nome do ingrediente>"
             var htmlNomeIngrediente = '<h4 class="modal-title ">Acrescentar ' + valIngrediente.nome_ingrediente + '</h4>';
 
@@ -37,7 +48,7 @@ $('#lista-ingredientes').on('click', '.addButton', function () {
 
                     // deixa selecionado a unidade do ingrediente ao abrir modal
                     $('select[name="unidade_medida_id_unidade_medida"] option[value="' + valIngrediente.unidade_medida_id_unidade_medida + '"]').prop('selected', true);
-                    $('#formSomar').find('.unidadeMedida').html(htmlUnidadeMedida);
+                    $('#formSomar').find('.unidadeTxt').html(htmlUnidadeMedida);
                 }
             })
             // header da modal
@@ -46,9 +57,32 @@ $('#lista-ingredientes').on('click', '.addButton', function () {
             // joga na modal a id do ingrediente 'hidden' e a quantidade atual
             $('#formSomar').find('.idIngrediente').html(htmlIdIngrediente);
             $('#formSomar').find('.quantidadeAtual').html(htmlQuantidadeAtual);
+            $('#formSomar').find('.preco_unitario_atual').html(htmlPrecoUnitario);
+
+            $('.inputQtdSoma').html(htmlQtdSoma);
+            $('.inputPreco').html(htmlValor);
         }
     })
 });
+
+function calculaPreco() {
+
+    // pega os valores inseridos na modal
+    var qtdIngrediente = $('.qtdSoma').val();
+    var precoTotal = $('.valor_total_compra').val();
+
+    // pega a unidade (texto) da modal para mostrar ao lado do valor unitario atual
+    var unidadeTxt = $('.unidadeTxt').find('h5').text();
+
+    if (qtdIngrediente == '' || precoTotal == '') {
+        $('.preco_unitario_atualizado').html('R$ 0');
+    } else {
+        // calcula e mostra na tela o valor do preco unitario atual
+        var precoUnitarioAtual = (Math.round((qtdIngrediente / precoTotal) * 100) / 100);
+        var htmlPrecoUnitarioAtual = '<h5>R$ ' + precoUnitarioAtual + ' / ' + unidadeTxt + '</h5> ';
+        $('.preco_unitario_atualizado').html(htmlPrecoUnitarioAtual);
+    }
+}
 
 // ========== postAdd() é chamado em validacao-somar-subtrair.js ==========
 function postAdd() {
@@ -113,7 +147,7 @@ $('#lista-ingredientes').on('click', '.subButton', function () {
 
                     // deixa selecionado a unidade do ingrediente ao abrir modal
                     $('select[name="unidade_medida_id_unidade_medida"] option[value="' + valIngrediente.unidade_medida_id_unidade_medida + '"]').prop('selected', true);
-                    $('#formSubtrair').find('.unidadeMedida').html(htmlUnidadeMedida);
+                    $('#formSubtrair').find('.unidadeTxt').html(htmlUnidadeMedida);
                 }
             })
 

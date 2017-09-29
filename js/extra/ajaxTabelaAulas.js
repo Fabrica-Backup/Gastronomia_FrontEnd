@@ -55,7 +55,6 @@ function getTabela(jsonAula, jsonReceita, jsonPeriodo) {
         })
 
         $('<td class="num_receitas">' + countReceitas + '</td>').appendTo(htmlList);
-        $('<td class="num_alunos">' + valAula.numero_de_alunos_projetados + '</td>').appendTo(htmlList);
 
         // joga os botoes detalhes e excluir dentro da 'tr'
         $(botaoDetalhes).appendTo(htmlList);
@@ -225,7 +224,6 @@ $('#verAula').on('click', '.clonar', function () {
             objClone.periodo_aula = valueAula.periodo_aula;
             objClone.aula_concluida = 'false';
             objClone.aula_agendada = 'false';
-            objClone.numero_de_alunos_projetados = valueAula.numero_de_alunos_projetados;
             objClone.receitas = [];
 
             $.each(valueAula.receitas, function (indexAulaReceitas, valueAulaReceitas) {

@@ -22,7 +22,7 @@ function mostraIngredientes() {
     // cria os botoes dos ingredientes
     var botaoAdd = '<td><button type="button" class="btn btn-xs addButton"><i class="fa fa-plus"></i></button></td>';
     var botaoSubtract = '<td><button type="button" class="btn btn-danger btn-xs subButton"><i class="fa fa-minus"></i></button></td>';
-    var botaoExcluir = '<td><button type="button" class="btn btn-xs btn-danger excluir"><i class="fa fa-trash"></i></button></td>';
+    var botaoExcluir = '<td><button type="button" class="btn btn-xs btn-danger excluir_ing"><i class="fa fa-trash"></i></button></td>';
     var botaoEditar = '<td><button class="editar" type="button">Editar</button></td>';
 
     // roda a lista de ingredientes
@@ -40,6 +40,7 @@ function mostraIngredientes() {
                 $('<td class="nome_ingrediente">' + valIngrediente.nome_ingrediente + '</td>').appendTo(htmlList);
                 $('<td class="quantidade_calorica">' + valIngrediente.quantidade_calorica_ingrediente + '</td>').appendTo(htmlList);
                 $('<td class="aproveitamento">' + valIngrediente.aproveitamento_ingrediente + '</td>').appendTo(htmlList);
+                $('<td class="vlr_total_ingrediente"> R$ ' + valIngrediente.valor_total_ingrediente + '</td>').appendTo(htmlList);
                 $('<td class="quantidade_estoque">' + valIngrediente.quantidade_estoque_ingrediente + '</td>').appendTo(htmlList);
                 $('<td class="unidade_medida">' + unidade + '</td>').appendTo(htmlList);
                 $(botaoAdd).appendTo(htmlList);
@@ -82,12 +83,23 @@ function postJson() {
 };
 
 // ===================== DELETE ===================== //
-$('#lista-ingredientes').on('click', '.excluir', function () {
+$('#lista-ingredientes').on('click', '.excluir_ing', function () {
     // seleciona a 'tr' do ingrediente especifico
     var thisTr = $(this).closest('tr');
     // pega a id do ingrediente localizado no html
     var idData = thisTr.data('id');
+    excluir_ingrediente(idData);
+});
 
+$('#listaSearch').on('click', '.excluir_ing', function () {
+    // seleciona a 'tr' do ingrediente especifico
+    var thisTr = $(this).closest('tr');
+    // pega a id do ingrediente localizado no html
+    var idData = thisTr.data('id');
+    excluir_ingrediente(idData);
+})
+
+function excluir_ingrediente(idData) {
     swal({
             title: "Tem certeza que deseja deletar este ingrediente?",
             type: "warning",
@@ -120,4 +132,4 @@ $('#lista-ingredientes').on('click', '.excluir', function () {
             })
         }
     )
-});
+}

@@ -4,6 +4,7 @@
      "quantidade_calorica_ingrediente": "100",
      "aproveitamento_ingrediente": "90",
      "quantidade_estoque_ingrediente": "4",
+     "valor_total_ingrediente": "10.00",
      "unidade_medida_id_unidade_medida": "1"
    },
    {
@@ -12,6 +13,7 @@
      "quantidade_calorica_ingrediente": "1000",
      "aproveitamento_ingrediente": "70",
      "quantidade_estoque_ingrediente": "4",
+     "valor_total_ingrediente": "12.00",
      "unidade_medida_id_unidade_medida": "2"
    },
    {
@@ -20,6 +22,7 @@
      "quantidade_calorica_ingrediente": "200",
      "aproveitamento_ingrediente": "100",
      "quantidade_estoque_ingrediente": "4",
+     "valor_total_ingrediente": "5.50",
      "unidade_medida_id_unidade_medida": "3"
    },
    {
@@ -28,6 +31,7 @@
      "quantidade_calorica_ingrediente": "200",
      "aproveitamento_ingrediente": "100",
      "quantidade_estoque_ingrediente": "4",
+     "valor_total_ingrediente": "8.00",
      "unidade_medida_id_unidade_medida": "3"
    },
    {
@@ -36,6 +40,7 @@
      "quantidade_calorica_ingrediente": "200",
      "aproveitamento_ingrediente": "100",
      "quantidade_estoque_ingrediente": "4",
+     "valor_total_ingrediente": "100.00",
      "unidade_medida_id_unidade_medida": "3"
    },
    {
@@ -44,6 +49,7 @@
      "quantidade_calorica_ingrediente": "200",
      "aproveitamento_ingrediente": "100",
      "quantidade_estoque_ingrediente": "4",
+     "valor_total_ingrediente": "12.00",
      "unidade_medida_id_unidade_medida": "3"
    }
  ]

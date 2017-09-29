@@ -1,9 +1,15 @@
 $(document).ready(function () {
-    // garante que a tabela de aulas foi carregada
-    if (typeof jsonAula === 'undefined') {
+    window.jsonAula;
+    window.jsonIngredientes;
+    // garante que a tabela de aulas e ingredientes foi carregada
+    if (typeof jsonAula === 'undefined' || typeof jsonIngredientes === 'undefined') {
         $.getJSON('../js/testesJson/testeJsonAula.json', function (jsonObjectAula) {
-            window.jsonAula = jsonObjectAula;
-            calculaValores();
+            jsonAula = jsonObjectAula;
+            $.getJSON('../js/testesJson/testeJsonIngredientes.json', function (jsonObjectIngredientes) {
+                jsonIngredientes = jsonObjectIngredientes;
+                calculaValores();
+            })
+
         })
     } else {
         calculaValores();
@@ -11,6 +17,7 @@ $(document).ready(function () {
 })
 
 function calculaValores() {
+    // ========== Cartas Aulas ==========
     var countAulasCriadas, countAulasAgendadas;
     // contadores
     var j = 0;
@@ -31,6 +38,16 @@ function calculaValores() {
             htmlAulasAgendadas = '<h3>' + i + '</h3>';
         }
     })
-    $('.numAulasCriadas').html(htmlAulasCriadas + "<p>Total de Aulas Criadas</p>");
+    $('.numAulasCriadas').html(htmlAulasCriadas + "<p>Total de Aulas Planejadas</p>");
     $('.numAulasAgendadas').html(htmlAulasAgendadas + "<p>Total de Aulas Agendadas</p>");
+
+    // ========== Carta Valor Estoque ==========
+    var valorEstoque = 0
+    $.each(jsonIngredientes, function (indexIngredientes, valIngredientes) {
+        var countValorEstoque = parseFloat(valIngredientes.valor_total_ingrediente);
+        valorEstoque = valorEstoque + countValorEstoque;
+    })
+    htmlValorEstoque = '<h3>R$ ' + valorEstoque + '</h3>';
+    $('.valorEstoque').html(htmlValorEstoque + "<p>Valor do Estoque</p>");
+
 }
