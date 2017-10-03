@@ -14,7 +14,7 @@ $('#lista-ingredientes').on('click', '.addButton', function () {
     var id_ingrediente = thisTr.data('id');
 
     // limpa o drop down de unidades (para nao ir acrescentando mais lista)
-    $('.UnidadeMedida').empty();
+    $('#UnidadeMedidaSoma').empty();
 
     // roda a lista de ingredientes
     $.each(jsonIngrediente, function (indexIngrediente, valIngrediente) {
@@ -26,9 +26,8 @@ $('#lista-ingredientes').on('click', '.addButton', function () {
             // cria html para mostrar a quantidade atual do ingrediente em estoque
             var htmlQuantidadeAtual = '<h5>' + valIngrediente.quantidade_estoque_ingrediente + '</h5>';
 
-            // cria html dos inputs
-            var htmlQtdSoma = '<input type="text" name="quantidade_estoque_ingrediente" onkeyup="calculaPreco()" class="form-control qtdSoma" placeholder="Quantidade">';
-            var htmlValor = '<input type="text" name="valor_total_ingrediente" onkeyup="calculaPreco()" class="form-control valor_total_compra" placeholder="Preço total">'
+            // pega a id da unidade do ingrediente (para filtragem das unidades)
+            var valueUnidade = valIngrediente.unidade_medida_id_unidade_medida;
 
             // calculo do preço unitario da quantidade atual de ingredientes e criaçao do html
             var precoUnitario = (valIngrediente.valor_total_ingrediente / valIngrediente.quantidade_estoque_ingrediente);
@@ -38,9 +37,11 @@ $('#lista-ingredientes').on('click', '.addButton', function () {
             var htmlNomeIngrediente = '<h4 class="modal-title ">Acrescentar ' + valIngrediente.nome_ingrediente + '</h4>';
 
             // roda a lista de unidades e joga na classe UnidadeMedida do html (cria o dropdown com json de unidades)
-            // NAO SEI COMO FAZER MOSTRAR A LISTA DO QUE IMPORTA (ex: se unidade do ingrediente for 'kg', ter apenas as opçoes 'kg', e 'g')
             $.each(jsonUnidade, function (indexUnidade, valUnidade) {
-                $('.UnidadeMedida').append($('<option>').text(valUnidade.descricao_unidade_medida).attr(('value'), valUnidade.id_unidade_medida));
+                $('#UnidadeMedidaSoma').append($('<option>').text(valUnidade.descricao_unidade_medida).attr(('value'), valUnidade.id_unidade_medida));
+
+                // vem de unidades.js, filtra as unidades que podem ser usados
+                validaUnidadeSoma(valueUnidade);
 
                 // se as id de unidade dos json ingrediente e unidade forem iguais, joga a descricao do json unidade desse ingrediente na tela
                 if (valUnidade.id_unidade_medida == valIngrediente.unidade_medida_id_unidade_medida) {
@@ -59,16 +60,28 @@ $('#lista-ingredientes').on('click', '.addButton', function () {
             $('#formSomar').find('.quantidadeAtual').html(htmlQuantidadeAtual);
             $('#formSomar').find('.preco_unitario_atual').html(htmlPrecoUnitario);
 
-            $('.inputQtdSoma').html(htmlQtdSoma);
-            $('.inputPreco').html(htmlValor);
+            // cria e imprime na tela os input quantidade a somar e preço
+            $('.inputQtdSoma').html('<input type="text" onkeyup="calculaPreco()" class="form-control qtdSoma" placeholder="Quantidade">');
+            $('.inputPreco').html('<input type="text" name="valor_total_ingrediente" onkeyup="calculaPreco()" class="form-control valor_total_compra" placeholder="Preço total">');
         }
     })
 });
 
 function calculaPreco() {
+    var valorTransformado;
+    var unidadeSelecionado = $('#UnidadeMedidaSoma').find('option:selected').val();
+    var qtdSoma = $('.qtdSoma').val();
+
+    if (unidadeSelecionado == '1' || unidadeSelecionado == '2' || unidadeSelecionado == '3') {
+        valorTransformado = qtdSoma;
+    }
+    if (unidadeSelecionado == '91' || unidadeSelecionado == '92') {
+        valorTransformado = qtdSoma / 1000;
+    }
+    $('.inputValorTransformado').html('<input type="hidden" name="quantidade_estoque_ingrediente" class="form-control valorTransformado" placeholder="Quantidade" value="' + valorTransformado + '">');
 
     // pega os valores inseridos na modal
-    var qtdIngrediente = $('.qtdSoma').val();
+    var qtdIngrediente = $('.valorTransformado').val();
     var precoTotal = $('.valor_total_compra').val();
 
     // pega a unidade (texto) da modal para mostrar ao lado do valor unitario atual
@@ -81,6 +94,7 @@ function calculaPreco() {
         var precoUnitarioAtual = (Math.round((qtdIngrediente / precoTotal) * 100) / 100);
         var htmlPrecoUnitarioAtual = '<h5>R$ ' + precoUnitarioAtual + ' / ' + unidadeTxt + '</h5> ';
         $('.preco_unitario_atualizado').html(htmlPrecoUnitarioAtual);
+
     }
 }
 
@@ -120,7 +134,7 @@ $('#lista-ingredientes').on('click', '.subButton', function () {
     var id_ingrediente = thisTr.data('id');
 
     // limpa o drop down de unidades (para nao ir acrescentando mais lista)
-    $('.UnidadeMedida').empty();
+    $('#unidadeMedidaSubtrai').empty();
 
     // roda a lista de ingredientes
     $.each(jsonIngrediente, function (indexIngrediente, valIngrediente) {
@@ -136,10 +150,14 @@ $('#lista-ingredientes').on('click', '.subButton', function () {
             // aparecera na header da modal, "Subtrair + <nome do ingrediente>"
             var htmlNomeIngrediente = '<h4 class="modal-title ">Subtrair ' + valIngrediente.nome_ingrediente + '</h4>';
 
+            // pega id da unidade do ingrediente para filtrar o select
+            var valueUnidade = valIngrediente.unidade_medida_id_unidade_medida;
+
             // roda a lista de unidades e joga na classe UnidadeMedida do html (cria o dropdown com json de unidades)
-            // NAO SEI COMO FAZER MOSTRAR A LISTA DO QUE IMPORTA (ex: se unidade do ingrediente for 'kg', ter apenas as opçoes 'kg', e 'g')
             $.each(jsonUnidade, function (indexUnidade, valUnidade) {
-                $('.UnidadeMedida').append($('<option>').text(valUnidade.descricao_unidade_medida).attr(('value'), valUnidade.id_unidade_medida));
+                $('#unidadeMedidaSubtrai').append($('<option>').text(valUnidade.descricao_unidade_medida).attr(('value'), valUnidade.id_unidade_medida));
+
+                validaUnidadeSubtrai(valueUnidade);
 
                 // se as id de unidade dos json ingrediente e unidade forem iguais, joga a descricao do json unidade desse ingrediente na tela
                 if (valUnidade.id_unidade_medida == valIngrediente.unidade_medida_id_unidade_medida) {
