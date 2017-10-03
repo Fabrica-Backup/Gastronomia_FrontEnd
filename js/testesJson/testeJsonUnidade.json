@@ -9,5 +9,13 @@
     {
         "id_unidade_medida": "3",
         "descricao_unidade_medida": "l"
+    },
+    {
+        "id_unidade_medida": "91",
+        "descricao_unidade_medida": "mg"
+    },
+    {
+        "id_unidade_medida": "92",
+        "descricao_unidade_medida": "ml"
     }
 ]

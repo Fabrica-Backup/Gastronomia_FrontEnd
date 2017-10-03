@@ -233,8 +233,8 @@
 
                                                     <div class="form-group">
                                                         <label for="inputUnidade" class="col-sm-3 control-label">Unidade*</label>
-                                                        <div class="col-sm-6">
-                                                            <select name="unidade_medida_id_unidade_medida" class="form-control UnidadeMedida" style="width: 100%;"></select>
+                                                        <div class="col-sm-6 listaUnidade">
+                                                            <select name="unidade_medida_id_unidade_medida" class="form-control" id="unidadeMedida" style="width: 100%;"></select>
                                                         </div>
                                                     </div>
 
@@ -283,11 +283,10 @@
                                                 <hr>
                                                 <div class="form-group">
                                                     <label class="col-sm-3 control-label">Quantidade a Somar*</label>
-                                                    <div class="col-xs-3 col-sm-3 inputQtdSoma">
-
-                                                    </div>
+                                                    <div class="inputValorTransformado"></div>
+                                                    <div class="col-xs-3 col-sm-3 inputQtdSoma"></div>
                                                     <div class="col-sm-2 listaUnidade">
-                                                        <select name="unidade_medida_id_unidade_medida" class="form-control UnidadeMedida" style="width: 100%;"></select>
+                                                        <select onchange="calculaPreco()" name="unidade_medida_id_unidade_medida" class="form-control" id="UnidadeMedidaSoma" style="width: 100%;"></select>
                                                     </div>
                                                 </div>
 
@@ -342,7 +341,7 @@
                                                         <input type="text" name="quantidade_estoque_ingrediente" class="form-control qtdSubtrai" placeholder="Quantidade ">
                                                     </div>
                                                     <div class="col-sm-2">
-                                                        <select name="unidade_medida_id_unidade_medida" class="form-control UnidadeMedidaSelect" style="width: 100%;"></select>
+                                                        <select name="unidade_medida_id_unidade_medida" class="form-control" id="unidadeMedidaSubtrai" style="width: 100%;"></select>
                                                     </div>
                                                 </div>
 
@@ -384,6 +383,7 @@
     <script src="../js/extra/estoque/somar_subtrair.js"></script>
     <script src="../js/extra/estoque/validacao_ingrediente.js"></script>
     <script src="../js/extra/estoque/validacao_somar_subtrair.js"></script>
+    <script src="../js/extra/estoque/unidades.js"></script>
     <script src="../js/extra/util.js"></script>
     <script src="../js/search.js"></script>
 </body>

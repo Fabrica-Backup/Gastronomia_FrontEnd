@@ -109,7 +109,7 @@ function excluir_ingrediente(idData) {
             closeOnConfirm: false,
         },
         function () {
-            $.ajax('#' + idData + '', {
+            $.ajax('http://httpbin.org/delete/' + idData + '', {
                 type: 'DELETE',
                 data: {
                     "id_ingrediente": idData
