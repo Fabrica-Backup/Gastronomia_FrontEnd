@@ -66,7 +66,7 @@ function postJson() {
     } else {
         var urlData = "http://httpbin.org/post" + id + "";
     }
-
+    console.log(form.serialize())
     $.ajax({
         type: "POST",
         url: urlData,

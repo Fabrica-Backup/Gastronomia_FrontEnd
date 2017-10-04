@@ -17,24 +17,32 @@ function getIngredientes() {
                 })
             })
         }
-    } else {
         search();
     }
+
 }
 
 // garante que ao selecionar receitas, o get das receitas seja feito
 function getReceitas() {
     window.jsonReceita;
+    window.jsonClassificacao;
+    window.jsonCategoria;
     if (document.getElementById('filterRec').checked) {
-        if (typeof jsonReceita === 'undefined') {
+        if (typeof jsonReceita === 'undefined' || typeof jsonCategoria === 'undefined' || typeof jsonClassificacao === 'undefined') {
             $.getJSON('../js/testesJson/testeJsonReceitas.json', function (jsonObjectReceitas) {
                 jsonReceita = jsonObjectReceitas;
-                search();
+                $.getJSON('../js/testesJson/testeJsonClassificacao.json', function (jsonObjectClassificacao) {
+                    jsonClassificacao = jsonObjectClassificacao;
+                    $.getJSON('../js/testesJson/testeJsonCategoria.json', function (jsonObjectCategoria) {
+                        jsonCategoria = jsonObjectCategoria;
+                        search();
+                    })
+                })
             })
-        } else {
-            search();
         }
+        search();
     }
+
 }
 
 function search() {
@@ -128,6 +136,16 @@ function search() {
             var headerRec = '<h3 class="box-title ">Receitas</h3>';
             $('.search_header').html(headerRec);
 
+            // Cria a thead da tabela
+            var htmlThead = $('<tr class="thead_busca"></tr>');
+            $('<th>Receitas</th>').appendTo(htmlThead);
+            $('<th>Classificação</th>').appendTo(htmlThead);
+            $('<th>Setor</th>').appendTo(htmlThead);
+            $('<th></th>').appendTo(htmlThead);
+            $('<th></th>').appendTo(htmlThead);
+            // imprime a thead na tela
+            $('.htmlHead').html(htmlThead);
+
             var input, upper;
             // limpa a lista
             $('.searchList').remove();
@@ -145,28 +163,42 @@ function search() {
                     // cria uma lista
                     var htmlIngList = $('<tr class="searchList"></tr>');
                     $('<td><a href="#" class="hipertextColor" >' + value.nome_receita + '</a></td>').appendTo(htmlIngList);
+
+                    // pega a descricao da tabela classificacao
+                    $.each(jsonClassificacao, function (indexClassificacao, valClassificacao) {
+                        if (valClassificacao.id_classificacao == value.id_classificacao) {
+                            $('<td>' + valClassificacao.descricao_classificacao + '</td>').appendTo(htmlIngList);
+                        }
+                    })
+                    // pega a descricao da tabela categoria
+                    $.each(jsonCategoria, function (indexCategoria, valCategoria) {
+                        if (valCategoria.id_categoria == value.id_categoria) {
+                            $('<td>' + valCategoria.descricao_categoria + '</td>').appendTo(htmlIngList);
+                        }
+                    })
+
                     $('<td><button class="editButton">Editar</button></td>').appendTo(htmlIngList);
                     $('<td><button type="button" class="btn btn-xs btn-danger excluir"><i class="fa fa-trash"></i></button></td>').appendTo(htmlIngList)
                     $('.htmlIngList').append(htmlIngList);
                 }
             })
+
+            $('#search-btn').on('click', function () {
+                if (document.getElementById('filterRec').checked) {
+                    $.getJSON('../js/testesJson/testeJsonReceitas.json', function (jsonObjectReceitas) {
+                        window.jsonReceita;
+                        jsonReceita = jsonObjectReceitas;
+                        search();
+                    })
+                }
+                if (document.getElementById('filterIng').checked) {
+                    $.getJSON('../js/testesJson/testeJsonIngredientes.json', function (jsonObjectIngrediente) {
+                        window.jsonIngrediente;
+                        jsonIngrediente = jsonObjectIngrediente;
+                        search();
+                    })
+                }
+            })
         }
     }
 }
-
-$('#search-btn').on('click', function () {
-    if (document.getElementById('filterRec').checked) {
-        $.getJSON('../js/testesJson/testeJsonReceitas.json', function (jsonObjectReceitas) {
-            window.jsonReceita;
-            jsonReceita = jsonObjectReceitas;
-            search();
-        })
-    }
-    if (document.getElementById('filterIng').checked) {
-        $.getJSON('../js/testesJson/testeJsonIngredientes.json', function (jsonObjectIngrediente) {
-            window.jsonIngrediente;
-            jsonIngrediente = jsonObjectIngrediente;
-            search();
-        })
-    }
-})
