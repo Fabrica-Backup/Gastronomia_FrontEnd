@@ -60,3 +60,8 @@ function validaUnidadeSubtrai(valueUnidade) {
         $("#unidadeMedidaSubtrai option[value='91']").remove();
     }
 }
+
+function filtraUnidade() {
+    $("#unidadeMedida option[value='92']").remove();
+    $("#unidadeMedida option[value='91']").remove();
+}

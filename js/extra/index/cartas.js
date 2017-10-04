@@ -9,11 +9,9 @@ $(document).ready(function () {
                 jsonIngredientes = jsonObjectIngredientes;
                 calculaValores();
             })
-
         })
-    } else {
-        calculaValores();
     }
+    calculaValores();
 })
 
 function calculaValores() {

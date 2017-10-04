@@ -16,8 +16,6 @@ $('#lista-ingredientes').on('click', '.editar', function () {
     // limpa o drop down de unidades (para nao ir acrescentando mais lista)
     $('#unidadeMedida').empty();
 
-
-
     // roda a lista de ingredientes
     $.each(jsonIngrediente, function (indexIngrediente, valIngrediente) {
         // caso id_ingrediente localizado no html seja igual a id_ingrediente do json ingrediente, pega o json desse ingrediente e mostra na tela
@@ -26,6 +24,7 @@ $('#lista-ingredientes').on('click', '.editar', function () {
             // roda a lista de unidades e joga na classe#unidadeMedida do html (cria o dropdown com json de unidades)
             $.each(jsonUnidade, function (indexUnidade, valUnidade) {
                 $('#unidadeMedida').append($('<option>').text(valUnidade.descricao_unidade_medida).attr(('value'), valUnidade.id_unidade_medida));
+
             })
 
             var valueUnidade = valIngrediente.unidade_medida_id_unidade_medida;
@@ -43,7 +42,7 @@ $('#lista-ingredientes').on('click', '.editar', function () {
             $('.nomeIngredienteHeader').html(htmlHeader);
 
             // deixa selecionado a unidade do ingrediente ao abrir modal
-            $('select[name="unidade_medida_id_unidade_medida"] option[value="' + valIngrediente.unidade_medida_id_unidade_medida + '"]').prop('selected', true);
+            $('select[name="unidade_medida"] option[value="' + valIngrediente.unidade_medida_id_unidade_medida + '"]').prop('selected', true);
 
             // joga os inputs na modal (ex: find(.NomeIngrediente), procura a classe NomeIngrediente no html e joga o input criado la)
             form_addIngrediente.find('.idIngrediente').html(htmlIdIngrediente);
@@ -62,7 +61,7 @@ $('#addIngrediente').on('click', function () {
     limpaMensagens();
 
     // reseta a lista de unidades para kg
-    $('select[name="unidade_medida_id_unidade_medida"] option[value="1"]').prop('selected', true);
+    $('select[name="unidade_medida"] option[value="1"]').prop('selected', true);
 
     // limpa o drop down de unidades (para nao ir acrescentando mais lista)
     $('#unidadeMedida').empty();
@@ -70,6 +69,9 @@ $('#addIngrediente').on('click', function () {
     // roda a lista de unidades e joga na classe#unidadeMedida do html (cria o dropdown com json de unidades)
     $.each(jsonUnidade, function (indexUnidade, valUnidade) {
         $('#unidadeMedida').append($('<option>').text(valUnidade.descricao_unidade_medida).attr(('value'), valUnidade.id_unidade_medida));
+
+        // tira 'mg' e 'ml' da lista, funçao esta em unidade.js
+        filtraUnidade();
     })
 
     // cria os inputs vazio
