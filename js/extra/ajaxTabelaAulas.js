@@ -3,7 +3,6 @@ $(document).ready(function () {
     // armazena os objetos json de receitas, aulas, e unidade para ser usado em outros locais
     window.jsonReceita;
     window.jsonAula;
-    window.jsonPeriodo;
 
     // verifica se foi dado get das receitas, aulas e periodo, caso nao tenha dado ele dará get aqui
     if (typeof jsonAula === 'undefined' || typeof jsonReceita === 'undefined' || typeof jsonPeriodo === 'undefined') {
@@ -13,19 +12,15 @@ $(document).ready(function () {
             // get da tabela de receitas
             $.getJSON('../js/testesJson/testeJsonReceitas.json', function (jsonObjectReceita) {
                 jsonReceita = jsonObjectReceita;
-                // get da tabela de periodo
-                $.getJSON('../js/testesJson/testeJsonPeriodo.json', function (jsonObjectPeriodo) {
-                    jsonPeriodo = jsonObjectPeriodo;
-                    getTabela(jsonAula, jsonReceita, jsonPeriodo);
-                })
+                getTabela(jsonAula, jsonReceita);
             })
         })
     } else {
-        getTabela(jsonAula, jsonReceita, jsonPeriodo);
+        getTabela(jsonAula, jsonReceita);
     }
 })
 
-function getTabela(jsonAula, jsonReceita, jsonPeriodo) {
+function getTabela(jsonAula, jsonReceita) {
     // geração de botoes
     var botaoExcluir = '<td><button type="button" class="btn btn-xs btn-danger excluir"><i class="fa fa-trash"></i></button></td>';
     var botaoEditar = '<td><button class="btn btn-xs editar" type="button"><i class="fa fa-edit"></i></button></td>';
@@ -45,15 +40,7 @@ function getTabela(jsonAula, jsonReceita, jsonPeriodo) {
         // cria as 'td' com os valores da aula E joga as 'td' dentro da 'tr' htmlList (<tr><td>  </td></tr>)
         $('<td hidden class="id_aula">' + valAula.id_aula + '</td>').appendTo(htmlList);
         $('<td class="dia_da_aula">' + valAula.data_aula + '</td>').appendTo(htmlList);
-
-        // roda a lista de periodos
-        $.each(jsonPeriodo, function (indexPeriodo, valPeriodo) {
-            // compara as id da key 'turno' da taebla aula com a key 'id_periodo' da tabela periodo, se forem iguais pega a 'descricao' da tabela periodo para mostrar na tela
-            if (valAula.periodo_aula == valPeriodo.id_periodo) {
-                $('<td class="periodo">' + valPeriodo.descricao + '</td>').appendTo(htmlList);
-            }
-        })
-
+        $('<td class="periodo">' + valAula.periodo_aula + '</td>').appendTo(htmlList);
         $('<td class="num_receitas">' + countReceitas + '</td>').appendTo(htmlList);
 
         // joga os botoes detalhes e excluir dentro da 'tr'
@@ -231,12 +218,12 @@ $('#verAula').on('click', '.clonar', function () {
             })
             var objCloneStringfy = JSON.stringify(objClone);
             jsonClone(objCloneStringfy);
-
         }
     })
 })
 
 function jsonClone(objCloneStringfy) {
+    console.log(objCloneStringfy)
     swal({
             title: "Clonar esta aula?",
             type: "warning",

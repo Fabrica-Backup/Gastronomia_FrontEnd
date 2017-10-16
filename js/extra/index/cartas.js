@@ -1,18 +1,16 @@
-$(document).ready(function () {
-    window.jsonAula;
-    window.jsonIngredientes;
-    // garante que a tabela de aulas e ingredientes foi carregada
-    if (typeof jsonAula === 'undefined' || typeof jsonIngredientes === 'undefined') {
-        $.getJSON('../js/testesJson/testeJsonAula.json', function (jsonObjectAula) {
-            jsonAula = jsonObjectAula;
-            $.getJSON('../js/testesJson/testeJsonIngredientes.json', function (jsonObjectIngredientes) {
-                jsonIngredientes = jsonObjectIngredientes;
-                calculaValores();
-            })
+window.jsonAula;
+window.jsonIngredientes;
+// garante que a tabela de aulas e ingredientes foi carregada
+if (typeof jsonAula === 'undefined' || typeof jsonIngredientes === 'undefined') {
+    $.getJSON('../js/testesJson/testeJsonAula.json', function (jsonObjectAula) {
+        jsonAula = jsonObjectAula;
+        $.getJSON('../js/testesJson/testeJsonIngredientes.json', function (jsonObjectIngredientes) {
+            jsonIngredientes = jsonObjectIngredientes;
+            calculaValores();
         })
-    }
-    calculaValores();
-})
+    })
+}
+calculaValores();
 
 function calculaValores() {
     // ========== Cartas Aulas ==========
@@ -47,5 +45,4 @@ function calculaValores() {
     })
     htmlValorEstoque = '<h3>R$ ' + valorEstoque + '</h3>';
     $('.valorEstoque').html(htmlValorEstoque + "<p>Valor do Estoque</p>");
-
 }
