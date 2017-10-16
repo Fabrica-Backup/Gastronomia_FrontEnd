@@ -5,11 +5,11 @@ window.jsonUnidade;
 
 // get da tabela de ingredientes
 if (typeof jsonIngrediente === 'undefined' || typeof jsonObjectUnidade === 'undefined') {
-    $.getJSON('../js/testesJson/testeJsonIngredientes.json', function (jsonObjectIngrediente) {
+    $.getJSON('http://localhost:8000/api/ingredientes/list', function (jsonObjectIngrediente) {
         jsonIngrediente = jsonObjectIngrediente;
 
         // get da tabela de unidades
-        $.getJSON('../js/testesJson/testeJsonUnidade.json', function (jsonObjectUnidade) {
+        $.getJSON('http://localhost:8000/api/unidadesmedida/list', function (jsonObjectUnidade) {
             jsonUnidade = jsonObjectUnidade;
             mostraIngredientes();
         })
@@ -30,8 +30,8 @@ function mostraIngredientes() {
         // roda a lista de unidades
         $.each(jsonUnidade, function (indexUnidade, valUnidade) {
             // compara as id de unidade das tabelas ingredientes e unidade e armazena a key 'descricao' da tabela unidade na variavel unidade
-            if (valUnidade.id_unidade_medida == valIngrediente.unidade_medida_id_unidade_medida) {
-                var unidade = valUnidade.descricao_unidade_medida;
+            if (valUnidade.id_unidade_medida == valIngrediente.id_unidade_medida) {
+                var unidade = valUnidade.simbolo_unidade_medida;
 
                 // cria a 'tr' de cada ingrediente para ficar em formato de lista
                 var htmlList = $('<tr class="id-ingrediente" data-id="' + valIngrediente.id_ingrediente + '"></tr>');
@@ -40,7 +40,7 @@ function mostraIngredientes() {
                 $('<td class="nome_ingrediente">' + valIngrediente.nome_ingrediente + '</td>').appendTo(htmlList);
                 $('<td class="quantidade_calorica">' + valIngrediente.quantidade_calorica_ingrediente + '</td>').appendTo(htmlList);
                 $('<td class="aproveitamento">' + valIngrediente.aproveitamento_ingrediente + '</td>').appendTo(htmlList);
-                $('<td class="vlr_total_ingrediente"> R$ ' + valIngrediente.valor_total_ingrediente + '</td>').appendTo(htmlList);
+                $('<td class="valor_ingrediente"> R$ ' + valIngrediente.valor_ingrediente + '</td>').appendTo(htmlList);
                 $('<td class="quantidade_estoque">' + valIngrediente.quantidade_estoque_ingrediente + '</td>').appendTo(htmlList);
                 $('<td class="unidade_medida">' + unidade + '</td>').appendTo(htmlList);
                 $(botaoAdd).appendTo(htmlList);
@@ -58,26 +58,37 @@ function mostraIngredientes() {
 function postJson() {
     // seleciona o formulario, vai ser enviado serializado em 'data'
     var form = $('#form-addIngrediente');
-
-    // pega id do ingrediente (se vazio = POST, se tem algo = PUT)
-    var id = $('.id_ingrediente').val();
-    if (id == '') {
-        var urlData = "http://httpbin.org/post";
-    } else {
-        var urlData = "http://httpbin.org/post" + id + "";
-    }
     console.log(form.serialize())
+    // pega id do ingrediente (se vazio = POST, se tem algo = PUT)
+    var id = $('.id').val();
+    console.log(id)
+    if (typeof id === 'undefined') {
+        var urlData = "http://localhost:8000/api/ingredientes/create";
+    } else {
+        var urlData = "http://localhost:8000/api/ingredientes/edit/" + id + "";
+    }
+
     $.ajax({
-        type: "POST",
+        type: "PUT",
         url: urlData,
         dataType: "json",
+        // contentType: "application/json; charset=utf-8",
+        // headers: { "X-HTTP-Method-Override": "PUT" },
         data: form.serialize(),
-        contentType: "application/json",
         success: function () {
-            $('#mensagens-sucesso').append('DEU CERTO PORRA!!');
+            $('.aulas').modal("hide");
+            swal({
+                    title: "Sucesso!",
+                    text: "Ingrediente incluido com sucesso!",
+                    type: "success"
+                },
+                function () {
+                    location.reload();
+                }
+            )
         },
         error: function () {
-            $('#mensagens-erro').append('AFFE CAGO!!');
+            $('#mensagens-erro').append('Problemas no cadastro do ingrediente');
         }
     });
 };
@@ -88,7 +99,7 @@ $('#lista-ingredientes').on('click', '.excluir_ing', function () {
     var thisTr = $(this).closest('tr');
     // pega a id do ingrediente localizado no html
     var idData = thisTr.data('id');
-    excluir_ingrediente(idData);
+    excluir_ingrediente(idData, thisTr);
 });
 
 $('#listaSearch').on('click', '.excluir_ing', function () {
@@ -96,10 +107,10 @@ $('#listaSearch').on('click', '.excluir_ing', function () {
     var thisTr = $(this).closest('tr');
     // pega a id do ingrediente localizado no html
     var idData = thisTr.data('id');
-    excluir_ingrediente(idData);
+    excluir_ingrediente(idData, thisTr);
 })
 
-function excluir_ingrediente(idData) {
+function excluir_ingrediente(idData, thisTr) {
     swal({
             title: "Tem certeza que deseja deletar este ingrediente?",
             type: "warning",
@@ -109,7 +120,7 @@ function excluir_ingrediente(idData) {
             closeOnConfirm: false,
         },
         function () {
-            $.ajax('http://httpbin.org/delete/' + idData + '', {
+            $.ajax('http://localhost:8000/api/ingredientes/delete/' + idData + '', {
                 type: 'DELETE',
                 data: {
                     "id_ingrediente": idData

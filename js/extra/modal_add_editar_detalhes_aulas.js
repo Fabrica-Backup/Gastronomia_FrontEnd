@@ -21,10 +21,7 @@ $('.aulas').on('click', '.editar', function () {
     var htmlAddIngButton = '<button type="button" class="btn btn-success btn-sm" data-toggle="modal" data-target="#addReceita"><i class="fa fa-plus"></i></button>';
     form_addAula.find('.addIngButton').html(htmlAddIngButton);
 
-    // gera drop down dos periodos
-    $.each(jsonPeriodo, function (indexPeriodo, valPeriodo) {
-        $('.turno').append($('<option>').text(valPeriodo.descricao).attr(('value'), valPeriodo.id_periodo));
-    })
+    var htmlTurno = '<select class="form-control periodo_aula" name="periodo_aula" style="width: 100%;"><option value="Manhã">Manhã</option><option value="Noite">Noite</option></select>';
 
     // roda a lista de aulas e verifica com a id pego na 'tr'
     $.each(jsonAula, function (indexAula, valAula) {
@@ -40,12 +37,15 @@ $('.aulas').on('click', '.editar', function () {
             form_addAula.find('.idAula').html(htmlIdAula);
             form_addAula.find('.data').html(htmlDiaDaAula);
             form_addAula.find('.numAlunos').html(htmlNumAlunos);
-
+            form_addAula.find('.turno').html(htmlTurno);
             form_addAula.find('.numReceitas').html(htmlNumReceitas);
             chamaDatePicker();
 
             // esvazia a array para validação da receita (não repetir receita)
             receitaArray.length = 0;
+
+            // deixa selecionado o periodo da aula
+            $('.turno').val(valAula.periodo_aula).change();
 
             // garante que a tabela de receitas foi carregada
             if (typeof jsonObjectReceita === 'undefined') {
@@ -81,10 +81,7 @@ $('.aulas').on('click', '.botaoAgendarAula', function () {
 
     form_addAula.find('.addIngButton').html(htmlAddIngButton);
 
-    // gera drop down dos periodos
-    $.each(jsonPeriodo, function (indexPeriodo, valPeriodo) {
-        $('.turno').append($('<option>').text(valPeriodo.descricao).attr(('value'), valPeriodo.id_periodo));
-    })
+    var htmlTurno = '<select class="form-control periodo_aula" name="periodo_aula" style="width: 100%;"><option value="Manhã">Manhã</option><option value="Noite">Noite</option></select>';
 
     // roda a lista de aulas e verifica com a id pego na 'tr'
     $.each(jsonAula, function (indexAula, valAula) {
@@ -100,12 +97,16 @@ $('.aulas').on('click', '.botaoAgendarAula', function () {
             form_addAula.find('.idAula').html(htmlIdAula);
             form_addAula.find('.data').html(htmlDiaDaAula);
             form_addAula.find('.numAlunos').html(htmlNumAlunos);
-
+            form_addAula.find('.periodo_aula').html(htmlNumAlunos);
+            form_addAula.find('.turno').html(htmlTurno);
             form_addAula.find('.numReceitas').html(htmlNumReceitas);
             chamaDatePicker();
 
             // esvazia a array para validação da receita (não repetir receita)
             receitaArray.length = 0;
+
+            // deixa selecionado o periodo da aula
+            $('.turno').val(valAula.periodo_aula).change();
 
             // garante que a tabela de receitas foi carregada
             if (typeof jsonObjectReceita === 'undefined') {
@@ -157,12 +158,6 @@ function mostraReceitas(idAula) {
                     }
                 })
             })
-            // deixa selecionao o periodo da aula especificada ao abrir modal
-            $.each(jsonPeriodo, function (indexPeriodo, valPeriodo) {
-                if (valPeriodo.id_periodo == valAula.periodo_aula) {
-                    $('select[name="id_periodo"] option[value="' + valPeriodo.id_periodo + '"]').prop('selected', true);
-                }
-            })
         }
         // cria array de botoes (cancelar e agendar) 
         var htmlButtonArr = [];
@@ -187,7 +182,7 @@ $('#addIngrediente').on('click', function () {
 
     var htmlIdAula = '<input name="id_aula" class="id_aula" hidden value=""></input>'
     var htmlDiaDaAula = '<input type="text" name="dia_da_aula" class="form-control" id="datepicker" placeholder="dd/mm/yy">';
-    var htmlTurno = '<select class="form-control" name="turno" style="width: 100%;"><option value="1">Manha</option><option value="2">Noite</option></select>';
+    var htmlTurno = '<select class="form-control periodo_aula" name="periodo_aula" style="width: 100%;"><option value="Manhã">Manhã</option><option value="Noite">Noite</option></select>';
     var htmlNumReceitas = '<input type="text" class="form-control" id="numero_de_receitas" placeholder="Nº de Receitas" value="">';
     var htmlNumAlunos = '<input type="text" class="form-control qtdAlunos" name="numero_alunos" placeholder="Nº de Alunos" value="">';
 
